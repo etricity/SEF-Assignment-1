@@ -156,6 +156,12 @@ public class Game extends JFrame {
 	   LoginSystem ls = new LoginSystem();
 	   ls.setVisible(true);
 	   
+	   //Prevents the user from just exiting the LoginSystem to gain access
+	   if(!ls.getIsUserLogIn())
+	   {
+		   System.exit(0);
+	   }
+	   
 	   
        Game game = new Game();
        game.setTitle("Monster Game");

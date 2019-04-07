@@ -16,9 +16,11 @@ public class LoginSystem extends JDialog implements ActionListener{
 	private JLabel usernameLabel;
 	private JLabel passwordLabel;	
 	private JTextField usernameField;
-	private JPasswordField passwordField;
+	private JTextField passwordField;
 	private JButton signUp;
 	private JButton logIn;
+	//used to ensure the user logins in before the game can be opened
+	private Boolean userLoggedIn = false;
 	
 	public LoginSystem()
 	{
@@ -35,7 +37,7 @@ public class LoginSystem extends JDialog implements ActionListener{
 		north.setLayout(new BorderLayout());
 		north.setPreferredSize(new Dimension(0,100));
 		
-		message = new JLabel("ty", JLabel.CENTER);
+		message = new JLabel("", JLabel.CENTER);
 		north.add(message, BorderLayout.CENTER);
 		north.setVisible(true);
 		
@@ -115,15 +117,53 @@ public class LoginSystem extends JDialog implements ActionListener{
 	
 	public void signUp()
 	{
-		User user = new User(usernameField.getText(), passwordField.getPassword());
+		User user = new User(usernameField.getText(), passwordField.getText());
 		users.add(user);
 		message.setText(user.getUserName() + " successfully added to the system. You can now log in.");
 	}
 	
-	//Validation later
-	public void logIn()
+	//Validates user before allowing them into the game
+	//Updates GUI for that user
+	public boolean logIn()
 	{
-		this.dispose();
+		User user = null;
+		Boolean userExists = false;
+		
+		//finding user in system (checks username is correct)
+		for(User u : users)
+		{
+			if(usernameField.getText().equals(u.getUserName()))
+			{
+				userExists = true;
+				user = u;
+				break;
+			}
+		}
+		
+		//checks password is correct
+		if(userExists)
+		{
+			if(passwordField.getText().equals(user.getPassword()))
+			{
+				userLoggedIn = true;
+				this.dispose();
+			}
+			else
+			{
+				message.setText("Password Incorrect.");
+			}
+		}
+		//Runs if user is not found in system
+		else
+		{
+			message.setText("User does not exist in our system.");
+		}
+		
+		return userLoggedIn;
 	}
 
+	public boolean getUserLoggedIn()
+	{
+		return userLoggedIn;
+	}
 }
