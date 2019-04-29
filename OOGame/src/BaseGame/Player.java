@@ -29,4 +29,21 @@ public class Player extends Moveable {
    public boolean isReady()
    {   return readyToStart;
    }
+   
+   //initial energy store that will get depleted as abilities are cast
+   //at depletion, player waits 3 seconds to go back to four energy.
+   public int energyStore() {
+	  int energyCheck = 4;
+	   
+	   
+	   if (energyCheck = 0) {
+		   this.maxCellsPerMove = 0;
+	   }
+	   
+	   else {
+		   energyCheck = 4;
+	   }
+	   
+	   
+   }
 }
